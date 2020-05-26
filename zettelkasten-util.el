@@ -1,4 +1,4 @@
-;;; zettelkasten-org -- Zettelkasten utilites  -*- lexical-binding: t -*-
+;;; zettelkasten-util -- Zettelkasten utilites  -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2020  Ashlynn Anderson
 
