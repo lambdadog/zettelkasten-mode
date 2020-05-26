@@ -71,22 +71,3 @@ the cache."
   (when (string= default-directory zettelkasten-directory)
     (zettelkasten-mode 1)))
 
-;;;###autoload
-(defun zettelkasten-new-public-note (title)
-  "Create a new public-tagged note in your zettelkasten."
-  (interactive "sTitle: ")
-  (let ((filename (zettelkasten-deft--wrap
-		   (zettelkasten-util--new-note title))))
-    (insert "#public ")
-    (unless (called-interactively-p 'interactive)
-      filename)))
-
-;;;###autoload
-(defun zettelkasten-new-private-note (title)
-  "Create a new private-tagged note in your zettelkasten."
-  (interactive "sTitle: ")
-  (let ((filename (zettelkasten-deft--wrap
-		   (zettelkasten-util--new-note title))))
-    (insert "#private ")
-    (unless (called-interactively-p 'interactive)
-      filename)))
