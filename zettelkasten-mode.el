@@ -63,7 +63,9 @@ the cache."
     (remove-hook 'after-save-hook
 		 #'zettelkasten-mode--update-deft-cache-hook)))
 
+;;;###autoload
 (add-hook 'org-mode-hook #'zettelkasten-mode--maybe-enable)
+;;;###autoload
 (defun zettelkasten-mode--maybe-enable ()
   "Enable zettelkasten-mode if in zettelkasten-directory"
   (when (string= default-directory zettelkasten-directory)
