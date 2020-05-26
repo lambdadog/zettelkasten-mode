@@ -20,10 +20,10 @@
 (defun zettelkasten-org--set-up ()
   (make-local-variable 'org-link-parameters)
   (org-link-set-parameters "zettel"
-			   :follow #'zettelkasten-org-follow-link
-			   :store #'zettelkasten-org-store-link))
+			   :follow #'zettelkasten-org--follow-link
+			   :store #'zettelkasten-org--store-link))
 
-(defun zettelkasten-org-follow-link (id)
+(defun zettelkasten-org--follow-link (id)
   "Follow a zettel: link in org-mode."
   (zettelkasten-deft--wrap
    (let ((file (zettelkasten-util--file-from-id id)))
@@ -31,7 +31,7 @@
 	 (deft-open-file file)
        (user-error "ID Error. Either no or multiple zettelkasten notes found with ID %s" id)))))
 
-(defun zettelkasten-org-store-link ()
+(defun zettelkasten-org--store-link ()
   "Store a link to a zettel note."
   (when zettelkasten-mode
     (let ((zettel-info (zettelkasten-util--id-and-title buffer-file-name)))
