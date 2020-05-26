@@ -44,7 +44,10 @@
 ;; copying data in and out, but I can't really figure out one.
 (defmacro zettelkasten-deft--wrap (&rest body)
   ;; Ensure deft is initialized
-  (let ((body `(progn
+  (let ((body `(let ((deft-extensions '("org"))
+		     (deft-default-extension "org")
+		     (deft-use-filename-as-title t)
+		     (deft-auto-save-interval 0))
 		 (unless (and (boundp 'deft-all-files)
 			      deft-all-files)
 		   (deft-cache-initialize)
@@ -53,10 +56,6 @@
     (if (string= zettelkasten-directory deft-directory)
         body
       `(let ((deft-directory zettelkasten-directory)
-	     (deft-extensions '("org"))
-	     (deft-default-extension "org")
-	     (deft-use-filename-as-title t)
-	     (deft-auto-save-interval 0)
 	     
 	     (deft-all-files zettelkasten-deft-all-files)
 	     (deft-hash-contents zettelkasten-deft-hash-contents)
