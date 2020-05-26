@@ -54,6 +54,7 @@
         body
       `(let ((deft-directory zettelkasten-directory)
 	     (deft-extensions '("org"))
+	     (deft-default-extension "org")
 	     (deft-use-filename-as-title t)
 	     (deft-auto-save-interval 0)
 	     
