@@ -44,15 +44,14 @@
 (defun zettelkasten-mode--update-deft-cache-hook ()
   "Updates the deft search cache when you save a note in your
 zettelkasten."
-  (let ((deft-dir-synced (string= zettelkasten-directory
-				  deft-directory)))
-    (save-excursion
-      (zettelkasten-deft--wrap
-       (deft-cache-update-file buffer-file-name)
-       (when deft-dir-synced
-	 (if (deft-buffer-visible-p)
-	     (deft-refresh-filter)
-	   (setq deft-pending-updates t)))))))
+  (let ((deft-is-zettel (string= zettelkasten-directory
+				 deft-directory)))
+    (zettelkasten-deft--wrap
+     (deft-cache-update-file buffer-file-name)
+     (when deft-is-zettel
+       (if (deft-buffer-visible-p)
+	   (deft-refresh-filter)
+	 (setq deft-pending-updates t))))))
 
 (defun zettelkasten-mode--remove-after-save-hook ()
   "Removes the zettelkasten-mode after-save-hook if the file is
