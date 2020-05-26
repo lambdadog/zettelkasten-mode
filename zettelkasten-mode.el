@@ -46,12 +46,13 @@
 zettelkasten."
   (let ((deft-dir-synced (string= zettelkasten-directory
 				  deft-directory)))
-    (zettelkasten-deft--wrap
-     (save-excursion
+    (save-excursion
+      (zettelkasten-deft--wrap
        (deft-cache-update-file buffer-file-name)
-       (if (and deft-dir-synced (deft-buffer-visible-p))
-	   (deft-refresh-filter)
-	 (setq deft-pending-updates t))))))
+       (when deft-dir-synced
+	 (if (deft-buffer-visible-p)
+	     (deft-refresh-filter)
+	   (setq deft-pending-updates t)))))))
 
 (defun zettelkasten-mode--remove-after-save-hook ()
   "Removes the zettelkasten-mode after-save-hook if the file is
