@@ -1,7 +1,7 @@
 # `zettelkasten-mode` for Emacs
 
-`zettelkasten-mode` is an implementation of a Zettelkasten software in
-Emacs.
+`zettelkasten-mode` is an implementation of a Zettelkasten note-taking
+software in Emacs.
 
 ## What is a Zettelkasten?
 
