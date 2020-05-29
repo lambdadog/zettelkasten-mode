@@ -22,6 +22,8 @@
 (require 'zettelkasten-deft)
 (require 'zettelkasten-util)
 (require 'zettelkasten-org)
+(require 'zettelkasten-validate)
+(require 'zettelkasten)
 (require 'deft)
 
 ;;;###autoload
@@ -35,11 +37,15 @@
 		       
 		       (add-hook 'after-save-hook
 				 #'zettelkasten-mode--update-deft-cache-hook)
+		       (add-hook 'after-save-hook
+				 #'zettelkasten-validate-current-note)
 		       (add-hook 'deft-open-file-hook
 				 #'zettelkasten-mode--remove-after-save-hook)))
    (t (assoc-delete-all "zettel" org-link-parameters)
       (remove-hook 'after-save-hook
-		   #'zettelkasten-mode--update-deft-cache-hook))))
+		   #'zettelkasten-mode--update-deft-cache-hook)
+      (remove-hook 'after-save-hook
+		   #'zettelkasten-validate-current-note))))
 
 (defun zettelkasten-mode--update-deft-cache-hook ()
   "Updates the deft search cache when you save a note in your

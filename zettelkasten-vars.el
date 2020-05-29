@@ -27,4 +27,22 @@ unique. See 'format-time-string' for possible formatting."
   :type 'string
   :group 'zettelkasten-mode)
 
+(defcustom zettelkasten-illegal-links '(("public" . "private"))
+  "Alist of \"illegal\" links in your zettelkasten. This setting
+is designed to make your zettelkasten publically publishable
+while still maintaining private content in it.
+
+Upon saving a note in your zettelkasten, 'zettelkasten-mode' will
+validate that these links aren't created as forwardlinks, and
+when publishing your zettelkasten, 'zettelkasten-mode' will strip
+out any illegal taglinks or backlinks.
+
+Format is (FROM-TAG . TO-TAG).
+
+As an example, the default value means that \"public\"-tagged
+notes cannot link to \"private\"-tagged notes, but not
+vice-versa."
+  :type 'alist
+  :group 'zettelkasten-mode)
+
 (provide 'zettelkasten-vars)

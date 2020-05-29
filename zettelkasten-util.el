@@ -33,23 +33,6 @@ filepath)."
 		    "#+TAGS: "))
     filename))
 
-(defun zettelkasten-util--validate-zettelkasten ()
-  "Validate the zettelkasten to ensure that no public notes
-forward-link to private notes."
-  (let ((private-id-regexp (regexp-opt
-			    (mapcar #'zettelkasten-util--note-to-link-format
-				    (zettelkasten-util--filter-tags '("private")))))
-	(public-notes (zettelkasten-util--filter-tags '("public"))))
-    ;; Handle the case where there's no private notes
-    (unless (string= private-id-regexp "")
-      (let ((matches (zettelkasten-util--filter-regexps `(,private-id-regexp)
-							public-notes)))
-	(if (> (length matches) 0)
-	    (progn
-	      (message "Zettelkasten has links from public to private notes")
-	      matches)
-	  matches)))))
-
 (defconst zettelkasten-util--tag-regexp-format-string "#\\+TAGS:.*? \\(?:#?\\)%s[ \n]"
   "Format string for converting a tag to a regexp that matches
 the tag. Can accept both non-prefixed and #-prefixed tags.")
@@ -68,6 +51,31 @@ zettelkasten note."
   (let ((files (zettelkasten-util--filter-strings `(,id) nil t)))
     (when (= (length files) 1)
       (car files))))
+
+(defconst zettelkasten-util--tag-search-string "#\\+TAGS:\\(?1:.*\\)\n")
+
+(defun zettelkasten-util--get-tags (&optional note)
+  "Get the tags from a note in your zettelkasten. By default,
+searches your current buffer."
+  (let ((buffer (if note
+		    (let ((temp-buffer (generate-new-buffer " *temp*")))
+		      (with-current-buffer temp-buffer
+			(insert-file-contents note))
+		      temp-buffer)
+		  (current-buffer)))
+	(tags '()))
+    (with-current-buffer buffer
+      (unwind-protect
+	  (save-excursion
+	    (goto-char (point-min))
+	    (while (re-search-forward zettelkasten-util--tag-search-string nil t)
+	      (let* ((new-tags-string (replace-regexp-in-string "#" "" (match-string-no-properties 1)))
+		     (new-tags (split-string new-tags-string nil t)))
+		(setq tags (append tags new-tags))))
+	(when note
+	  (and (buffer-name buffer)
+	       (kill-buffer buffer))))))
+    tags))
 
 (defun zettelkasten-util--filter-regexps (regexps &optional files only-filenames)
   "Filter files with a list of regexps."
