@@ -32,17 +32,13 @@
   :lighter " Zettel"
   (cond
    (zettelkasten-mode (zettelkasten-deft--wrap
-		       ;; Set up zettelkasten links
-		       (zettelkasten-org--set-up)
-		       
 		       (add-hook 'after-save-hook
 				 #'zettelkasten-mode--update-deft-cache-hook)
 		       (add-hook 'after-save-hook
 				 #'zettelkasten-validate-current-note)
 		       (add-hook 'deft-open-file-hook
 				 #'zettelkasten-mode--remove-after-save-hook)))
-   (t (assoc-delete-all "zettel" org-link-parameters)
-      (remove-hook 'after-save-hook
+   (t (remove-hook 'after-save-hook
 		   #'zettelkasten-mode--update-deft-cache-hook)
       (remove-hook 'after-save-hook
 		   #'zettelkasten-validate-current-note))))

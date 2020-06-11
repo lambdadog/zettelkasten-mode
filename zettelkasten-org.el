@@ -17,11 +17,10 @@
 (require 'zettelkasten-deft)
 (require 'zettelkasten-util)
 
-(defun zettelkasten-org--set-up ()
-  (make-local-variable 'org-link-parameters)
-  (org-link-set-parameters "zettel"
-			   :follow #'zettelkasten-org--follow-link
-			   :store #'zettelkasten-org--store-link))
+;;;###autoload
+(org-link-set-parameters "zettel"
+			 :follow #'zettelkasten-org--follow-link
+			 :store #'zettelkasten-org--store-link)
 
 (defun zettelkasten-org--follow-link (id)
   "Follow a zettel: link in org-mode."
