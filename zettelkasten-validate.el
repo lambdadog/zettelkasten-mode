@@ -25,6 +25,8 @@ links in it."
   (zettelkasten-deft--wrap
    (let ((tags (zettelkasten-util--get-tags)))
      (dolist (tag tags illegal)
+       (unless (boundp 'illegal)
+	 (setq illegal nil))
        (let* ((illegal-tags (zettelkasten-validate--get-illegal-tags tag))
 	      (links-regexp (zettelkasten-validate--get-links-regexp illegal-tags)))
 	 (unless (string= links-regexp "")
@@ -42,9 +44,11 @@ safe before publishing your zettelkasten."
   (interactive)
   (let ((restricted-tags (delete-dups (mapcar #'car zettelkasten-illegal-links))))
     (dolist (tag restricted-tags illegal)
+      (unless (boundp 'illegal)
+	(setq illegal nil))
       (unless (zettelkasten-validate-tag tag)
 	(setq illegal t)))
-    illegal))
+    (not illegal)))
 
 (defun zettelkasten-validate-tag (tag)
   "Validate a single tag in your zettelkasten. Useful mostly for

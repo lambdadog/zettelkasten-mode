@@ -33,15 +33,15 @@
   (cond
    (zettelkasten-mode (zettelkasten-deft--wrap
 		       (add-hook 'after-save-hook
-				 #'zettelkasten-mode--update-deft-cache-hook)
+				 #'zettelkasten-mode--update-deft-cache-hook nil t)
 		       (add-hook 'after-save-hook
-				 #'zettelkasten-validate-current-note)
+				 #'zettelkasten-validate-current-note nil t)
 		       (add-hook 'deft-open-file-hook
-				 #'zettelkasten-mode--remove-after-save-hook)))
+				 #'zettelkasten-mode--remove-after-save-hook nil t)))
    (t (remove-hook 'after-save-hook
-		   #'zettelkasten-mode--update-deft-cache-hook)
+		   #'zettelkasten-mode--update-deft-cache-hook t)
       (remove-hook 'after-save-hook
-		   #'zettelkasten-validate-current-note))))
+		   #'zettelkasten-validate-current-note t))))
 
 (defun zettelkasten-mode--update-deft-cache-hook ()
   "Updates the deft search cache when you save a note in your
