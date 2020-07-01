@@ -73,3 +73,4 @@ the cache."
   (when (string= default-directory zettelkasten-directory)
     (zettelkasten-mode 1)))
 
+(provide 'zettelkasten-mode)
