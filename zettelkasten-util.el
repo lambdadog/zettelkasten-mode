@@ -24,13 +24,21 @@ filepath)."
     (string-match "^\\(?1:[0-9\-]*\\) \\(?2:.*\\)$" basename)
     `(,(match-string-no-properties 1 basename) . ,(match-string-no-properties 2 basename))))
 
+;; FIXME: when using deft and zettelkasten-mode together, the deft
+;; buffer will not refresh when a new file is created/saved.
 (defun zettelkasten-util--new-note (title)
   "Create a new zettelkasten note."
   (let* ((zettel-id (format-time-string zettelkasten-id-format))
-	 (filename (concat zettel-id " " title)))
-    (deft-new-file-named filename)
-    (insert (concat "#+TITLE: " title "\n"
-		    "#+TAGS: "))
+	 (filename (concat zettel-id " " title))
+	 (file (deft-absolute-filename filename))
+	 (buffer (find-file file)))
+    (deft-auto-populate-title-maybe file)
+    (deft-cache-update-file file)
+    (with-current-buffer buffer
+      (hack-local-variables)
+      (goto-char (point-max))
+      (insert (concat "#+TITLE: " title "\n"
+		      "#+TAGS: ")))
     filename))
 
 (defconst zettelkasten-util--tag-regexp-format-string "#\\+TAGS:.*? \\(?:#?\\)%s[ \n]"
