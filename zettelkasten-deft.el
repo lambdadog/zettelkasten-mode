@@ -56,7 +56,6 @@
     (if (string= zettelkasten-directory deft-directory)
         body
       `(let ((deft-directory zettelkasten-directory)
-	     
 	     (deft-all-files zettelkasten-deft-all-files)
 	     (deft-hash-contents zettelkasten-deft-hash-contents)
 	     (deft-hash-mtimes zettelkasten-deft-hash-mtimes)
